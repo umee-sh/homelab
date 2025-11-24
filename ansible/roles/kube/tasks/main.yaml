@@ -1,0 +1,21 @@
+- name: Install apt packages
+  ansible.builtin.apt:
+    name:
+      - python3-pip
+    update_cache: true
+
+- name: Install pip packages
+  ansible.builtin.pip:
+    name:
+      - kubernetes
+    break_system_packages: true
+
+- name: Setup k8s
+  when: inventory_hostname == groups["controller"][0]
+  kubernetes.core.k8s:
+    state: present
+    kubeconfig: /var/snap/microk8s/current/credentials/client.config
+    template:
+      - path: files/secrets.yaml
+      - path: files/cert.yaml
+      - path: files/ingress.yaml

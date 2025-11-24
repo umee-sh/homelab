@@ -1,0 +1,7 @@
+- name: Register as worker
+  vars:
+    registration_command: "{{ hostvars[groups['controller'][0]].controller_registration_command }}"
+    controller_count: "{{ groups['controller'] | length }}"
+    worker_index: "{{ groups['worker'].index(inventory_hostname) }}"
+  ansible.builtin.command: "{{ registration_command.results[(controller_count | int) + (worker_index | int) - 1].stdout_lines[0] }} --worker"
+  changed_when: true

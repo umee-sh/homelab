@@ -1,0 +1,27 @@
+- name: Get registration command
+  when: inventory_hostname == groups["controller"][0]
+  loop: "{{ groups['controller'][1:] | union(groups['worker']) }}"
+  ansible.builtin.command: microk8s add-node --format short
+  register: controller_registration_command
+  changed_when: false
+
+- name: Register as controller
+  when: inventory_hostname != groups["controller"][0]
+  vars:
+    controller_index: "{{ groups['controller'].index(inventory_hostname) }}"
+  ansible.builtin.command: "{{ controller_registration_command.results[(controller_index | int) - 1].stdout_lines[0] }}"
+  changed_when: true
+
+- name: Enable addons
+  when: inventory_hostname == groups["controller"][0]
+  ansible.builtin.command: microk8s enable {{ item }}
+  loop:
+    #- ingress:'default-ssl-certificate=default/umeesh-secret'
+    - ingress
+    #- cert-manager
+    #- core/mayastor --default-pool-size 20G
+    #- prometheus
+    - community
+    - argocd -v 9.1.4 # https://artifacthub.io/packages/helm/argo/argo-cd?modal=changelog
+    #- cloudnative-pg
+  changed_when: true

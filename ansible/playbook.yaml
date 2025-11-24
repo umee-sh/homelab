@@ -1,0 +1,23 @@
+- name: Setup machine
+  hosts: cluster
+  become: true
+  roles:
+    - role: preparation
+
+- name: Setup controller
+  hosts: controller
+  become: true
+  roles:
+    - role: controller
+
+- name: Setup worker
+  hosts: worker
+  become: true
+  roles:
+    - role: worker
+#
+#- name: Setup kube
+#  hosts: controller
+#  become: true
+#  roles:
+#    - role: kube

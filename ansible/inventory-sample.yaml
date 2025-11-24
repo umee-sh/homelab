@@ -1,0 +1,17 @@
+cluster:
+  children:
+    controller:
+      hosts:
+        # 203.0.113.1:
+
+    worker:
+      hosts:
+        # 203.0.113.2:
+        # 203.0.113.3:
+
+  vars:
+    ansible_user: ubuntu
+    cert_email: user@example.com
+
+    # ref: https://start.1password.com/open/i?a=GXIGW4EGSNAZFGQKHWG5XISQIY&v=4adb6fwinshbphz7rkitd6mn7e&i=lg77iny4qqtbabmspz4t7muuti&h=my.1password.com
+    cloudflare_api_token: YOUR_CLOUDFLARE_API_TOKEN
