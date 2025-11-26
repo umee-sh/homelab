@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: runner-scale-set
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: ghcr.io/actions/actions-runner-controller-charts
+    chart: gha-runner-scale-set
+    targetRevision: 0.13.0
+    helm:
+      valuesObject:
+        githubConfigUrl: https://github.com/i544c-me/fanbox-posts
+        githubConfigSecret: arc-github-i544c
+        controllerServiceAccount:
+          name: actions-runner-controller-gha-rs-controller
+          namespace: app-arc
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: app-arc
+  syncPolicy:
+    automated:
