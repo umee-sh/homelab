@@ -1,0 +1,52 @@
+- name: Install apt packages
+  ansible.builtin.apt:
+    name:
+      - snapd
+    update_cache: true
+
+- name: Install snap packages
+  community.general.snap:
+    name:
+      - microk8s
+    classic: true
+
+- name: Wait ready for k8s
+  ansible.builtin.command: microk8s status --wait-ready
+  changed_when: false
+
+# note: せっかく cloudflare_api_token を用意しているので
+# ついでに Cloudflare の A レコードを設定
+#- name: Set A record to Cloudflare
+#  when: inventory_hostname == groups["controller"][0]
+#  community.general.cloudflare_dns:
+#    zone: umee.sh
+#    record: "*"
+#    type: A
+#    value: "{{ inventory_hostname }}"
+#    api_token: "{{ cloudflare_api_token }}"
+#    solo: true
+#    proxied: true # TODO: デバッグ中...
+
+# Setup for Mayastor
+# ref: https://microk8s.io/docs/addon-mayastor
+
+- name: Set 1024MB HugePages
+  ansible.posix.sysctl:
+    name: vm.nr_hugepages
+    value: 1024
+
+- name: Install module
+  ansible.builtin.apt:
+    name: linux-modules-extra-{{ ansible_kernel | regex_replace('\\..*$', '') }}
+
+- name: Enable modules
+  community.general.modprobe:
+    name: nvme_tcp
+    state: present
+
+- name: Ensure nvme-tcp module loads on boot
+  ansible.builtin.lineinfile:
+    path: /etc/modules-load.d/microk8s-mayastor.conf
+    line: "nvme-tcp"
+    mode: "0644"
+    create: true
