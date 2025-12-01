@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: csi-driver-rclone
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: ghcr.io/veloxpack/charts
+    chart: csi-driver-rclone
+    targetRevision: 0.4.1
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: app-rclone
+  syncPolicy:
+    automated:
+      prune: true
