@@ -12,11 +12,11 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: rclone-dropbox
-  namespace: app-rclone
+  namespace: default
 type: Opaque
 stringData:
   remote: "dropbox"
-  remotePath: "/umeesh-homelab"
+  remotePath: "umeesh-homelab"
   configData: |
     [dropbox]
     type = dropbox
