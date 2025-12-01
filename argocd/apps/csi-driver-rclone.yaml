@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: csi-driver-rclone
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/umee-sh/homelab.git
+    path: argocd/csi-driver-rclone
+    targetRevision: feature/add-csi-driver-rclone
+  destination:
+    namespace: default
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      prune: true
