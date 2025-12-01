@@ -7,7 +7,7 @@ metadata:
 provisioner: rclone.csi.veloxpack.io
 parameters:
   remote: "dropbox"
-  remotePath: "/my-dropbox-folder"
+  remotePath: "/umeesh-homelab"
   csi.storage.k8s.io/node-publish-secret-name: "rclone-dropbox"
   csi.storage.k8s.io/node-publish-secret-namespace: "default"
 reclaimPolicy: Delete
