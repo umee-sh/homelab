@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: open-webui
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://open-webui.github.io/helm-charts
+    chart: open-webui
+    targetRevision: open-webui-10.2.1
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: app-open-webui
+  syncPolicy:
+    automated:
+    syncOptions:
+      - ServerSideApply=true # metadata.annotations: Too long: must have at most 262144 bytes を避けるため
