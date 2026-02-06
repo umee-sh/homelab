@@ -39,14 +39,17 @@
   ansible.builtin.apt:
     name: linux-modules-extra-{{ ansible_kernel | regex_replace('\\..*$', '') }}
 
-- name: Enable modules
+- name: Enable nvme_tcp module
   community.general.modprobe:
     name: nvme_tcp
     state: present
+    persistent: present
 
-- name: Ensure nvme-tcp module loads on boot
-  ansible.builtin.lineinfile:
-    path: /etc/modules-load.d/microk8s-mayastor.conf
-    line: "nvme-tcp"
-    mode: "0644"
-    create: true
+# Setup for Ceph RBD
+# ref: https://github.com/ceph/ceph-csi
+
+- name: Enable rbd module
+  community.general.modprobe:
+    name: rbd
+    state: present
+    persistent: present
