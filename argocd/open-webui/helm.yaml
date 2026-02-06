@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://open-webui.github.io/helm-charts
     chart: open-webui
-    targetRevision: open-webui-10.2.1
+    targetRevision: 10.2.1
   destination:
     server: https://kubernetes.default.svc
     namespace: app-open-webui
