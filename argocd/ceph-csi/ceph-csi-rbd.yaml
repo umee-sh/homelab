@@ -27,6 +27,14 @@ spec:
           allowVolumeExpansion: true
           parameters:
             imageFeatures: layering
+        # Provisionerのレプリカ数を削減（小規模クラスタ向け）
+        provisioner:
+          replicaCount: 1
+          # disk-pressure taintを許容する
+          tolerations:
+            - key: node.kubernetes.io/disk-pressure
+              operator: Exists
+              effect: NoSchedule
   destination:
     server: https://kubernetes.default.svc
     namespace: ceph-csi
