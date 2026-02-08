@@ -13,6 +13,9 @@ spec:
       valuesObject:
         persistence:
           existingClaim: open-webui-pvc
+        pipelines:
+          persistence:
+            existingClaim: open-webui-pipelines-pvc
   destination:
     server: https://kubernetes.default.svc
     namespace: app-open-webui
