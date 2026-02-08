@@ -9,6 +9,10 @@ spec:
     repoURL: https://open-webui.github.io/helm-charts
     chart: open-webui
     targetRevision: 10.2.1
+    helm:
+      valuesObject:
+        persistence:
+          existingClaim: open-webui-pvc
   destination:
     server: https://kubernetes.default.svc
     namespace: app-open-webui
