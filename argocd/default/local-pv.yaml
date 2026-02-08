@@ -1,0 +1,62 @@
+# Local PersistentVolume for homelab
+# NOTE: Before applying, update the following values:
+#   - spec.nodeAffinity.values: actual node name
+#   - spec.local.path: actual path on the node
+#   - spec.capacity.storage: desired storage size
+
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: local-storage
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+reclaimPolicy: Retain
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-pv-1
+spec:
+  capacity:
+    storage: 100Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+  local:
+    path: /mnt/local-storage/pv-1
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - microk8s-controller-1
+# Example: Additional PV (uncomment and modify as needed)
+# ---
+# apiVersion: v1
+# kind: PersistentVolume
+# metadata:
+#   name: local-pv-2
+# spec:
+#   capacity:
+#     storage: 100Gi
+#   volumeMode: Filesystem
+#   accessModes:
+#   - ReadWriteOnce
+#   persistentVolumeReclaimPolicy: Retain
+#   storageClassName: local-storage
+#   local:
+#     path: /mnt/local-storage/pv-2
+#   nodeAffinity:
+#     required:
+#       nodeSelectorTerms:
+#       - matchExpressions:
+#         - key: kubernetes.io/hostname
+#           operator: In
+#           values:
+#           - node-name-here
