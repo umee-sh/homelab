@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/umee-sh/homelab.git
     path: argocd/open-webui
-    targetRevision: feature/add-open-webui
+    targetRevision: main
   destination:
     namespace: default
     server: https://kubernetes.default.svc

@@ -1,14 +1,21 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: open-webui
+  name: open-webui-helm
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: https://open-webui.github.io/helm-charts
     chart: open-webui
-    targetRevision: open-webui-10.2.1
+    targetRevision: 10.2.1
+    helm:
+      valuesObject:
+        persistence:
+          existingClaim: open-webui-pvc
+        pipelines:
+          persistence:
+            existingClaim: open-webui-pipelines-pvc
   destination:
     server: https://kubernetes.default.svc
     namespace: app-open-webui
