@@ -17,13 +17,11 @@ spec:
     spec:
       containers:
         - name: playwright
-          image: mcr.microsoft.com/playwright:v1.58.2-noble
+          image: mcr.microsoft.com/playwright:v1.57.0-noble
           command:
             - /bin/sh
             - -c
-            - |
-              npm install -g playwright
-              npx playwright run-server --port 3000 --host 0.0.0.0
+            - npx playwright@1.57.0 run-server --port 3000 --host 0.0.0.0
           ports:
             - containerPort: 3000
               name: ws
