@@ -21,3 +21,11 @@ spec:
           ports:
             - containerPort: 8080
               name: http
+          volumeMounts:
+            - name: config
+              mountPath: /etc/searxng/settings.yml
+              subPath: settings.yml
+      volumes:
+        - name: config
+          configMap:
+            name: searxng-config
