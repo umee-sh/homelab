@@ -14,3 +14,7 @@ data:
       formats:
         - html
         - json
+
+    engines:
+      - name: startpage
+        disabled: true
