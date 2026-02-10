@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: playwright
+  namespace: app-searxng
+  labels:
+    app: playwright
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: playwright
+  template:
+    metadata:
+      labels:
+        app: playwright
+    spec:
+      containers:
+        - name: playwright
+          image: mcr.microsoft.com/playwright:v1.58.2-noble
+          command:
+            - /bin/sh
+            - -c
+            - |
+              npm install -g playwright
+              npx playwright run-server --port 3000 --host 0.0.0.0
+          ports:
+            - containerPort: 3000
+              name: ws
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "2Gi"
+              cpu: "1000m"
+          securityContext:
+            # Playwright needs to run browsers
+            runAsUser: 1000
+            runAsGroup: 1000
+            capabilities:
+              add:
+                - SYS_ADMIN
