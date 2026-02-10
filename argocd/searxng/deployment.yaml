@@ -21,3 +21,17 @@ spec:
           ports:
             - containerPort: 8080
               name: http
+          env:
+            - name: SEARXNG_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: searxng-secret
+                  key: secret-key
+          volumeMounts:
+            - name: config
+              mountPath: /etc/searxng/settings.yml
+              subPath: settings.yml
+      volumes:
+        - name: config
+          configMap:
+            name: searxng-config
