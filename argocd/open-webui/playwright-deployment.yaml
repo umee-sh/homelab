@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: playwright
-  namespace: app-searxng
+  namespace: app-open-webui
   labels:
     app: playwright
 spec:
