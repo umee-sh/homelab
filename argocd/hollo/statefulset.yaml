@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: hollo
-  namespace: app-helm
+  namespace: app-hollo
   labels:
     app: hollo
 spec:
