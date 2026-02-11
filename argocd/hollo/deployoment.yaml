@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: helm
+  namespace: app-helm
+  labels:
+    app: helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: helm
+  template:
+    metadata:
+      labels:
+        app: helm
+    spec:
+      containers:
+        - name: helm
+          image: ghcr.io/fedify-dev/hollo:0.7.2
+          ports:
+            - containerPort: 3000
+              name: http
+          envFrom:
+            - configMapRef:
+                name: hollo-config
+            - secretRef:
+                name: hollo-secret
+          volumeMounts:
+            - name: hollo-storage
+              mountPath: /data
+          resources:
+            requests:
+              memory: "32Mi"
+              cpu: "128m"
+            limits:
+              memory: "512Gi"
+              cpu: "1024m"
+        - name: hollo-media
+          image: nginx:1.29.5
+          ports:
+            - containerPort: 80
+              name: http
+          volumeMounts:
+            name: hollo-storage
+            mountPath: /usr/share/nginx/html/assets
+
+  volumeClaimTemplates:
+    - metadata:
+        name: hollo-storage
+      spec:
+        storageClassName: local-storage
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 1Gi

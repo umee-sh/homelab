@@ -1,0 +1,11 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: hollo-config
+  namespace: app-hollo
+data:
+  LOG_LEVEL: warning
+  BEHIND_PROXY: "true"
+  DRIVE_DISK: fs
+  FS_STORAGE_PATH: /data
+  STORAGE_URL_BASE: https://hollo-media.umee.sh

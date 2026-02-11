@@ -1,0 +1,72 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: hollo-pg
+  namespace: app-hollo
+spec:
+  instances: 1
+
+  bootstrap:
+    recovery:
+      source: backup
+
+  externalClusters:
+  - name: backup
+    barmanObjectStore:
+      endpointURL: "https://s3.isk01.sakurastorage.jp"
+      destinationPath: s3://i544c-me--learn-microk8s/hollo-backup/
+      serverName: hollo
+      s3Credentials:
+        accessKeyId:
+          name: sakura-obj-credentials
+          key: ACCESS_KEY_ID
+        secretAccessKey:
+          name: sakura-obj-credentials
+          key: SECRET_ACCESS_KEY
+      data:
+        compression: gzip
+      wal:
+        compression: gzip
+
+  storage:
+    storageClass: local-storage
+    size: 1Gi
+
+  backup:
+    barmanObjectStore:
+      endpointURL: "https://s3.isk01.sakurastorage.jp"
+      destinationPath: s3://i544c-me--learn-microk8s/hollo-backup/
+      s3Credentials:
+        accessKeyId:
+          name: sakura-obj-credentials
+          key: ACCESS_KEY_ID
+        secretAccessKey:
+          name: sakura-obj-credentials
+          key: SECRET_ACCESS_KEY
+      data:
+        compression: gzip
+      wal:
+        compression: gzip
+    retentionPolicy: "7d"
+
+---
+# apiVersion: postgresql.cnpg.io/v1
+# kind: Backup
+# metadata:
+#   name: hollo-backup-now-2
+#   namespace: hollo
+# spec:
+#   cluster:
+#     name: hollo-pg
+
+---
+# apiVersion: postgresql.cnpg.io/v1
+# kind: ScheduledBackup
+# metadata:
+#   name: hollo-backup
+#   namespace: hollo
+# spec:
+#   schedule: "0 0 0 * * *"
+#   backupOwnerReference: self
+#   cluster:
+#     name: hollo-pg
