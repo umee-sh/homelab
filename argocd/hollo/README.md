@@ -10,6 +10,6 @@ kubectl create secret generic sakura-obj-credentials \
 ```bash
 kubectl create secret generic hollo-secret \
   --namespace=app-hollo \
-  --from-literal=DATABASE_URL="postgres://user:password@postgres:5432/database" \
+  --from-literal=DATABASE_URL="postgres://hollo:CHANGE_HERE@hollo-pg-rw.app-hollo.svc.cluster.local:5432/hollo" \
   --from-literal=SECRET_KEY="$(openssl rand -hex 32)"
 ```

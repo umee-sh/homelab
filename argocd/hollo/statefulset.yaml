@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: helm
+  name: hollo
   namespace: app-helm
   labels:
-    app: helm
+    app: hollo
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: helm
+      app: hollo
   template:
     metadata:
       labels:
-        app: helm
+        app: hollo
     spec:
       containers:
-        - name: helm
+        - name: hollo
           image: ghcr.io/fedify-dev/hollo:0.7.2
           ports:
             - containerPort: 3000
@@ -51,6 +51,10 @@ spec:
       spec:
         storageClassName: local-storage
         accessModes: ["ReadWriteOnce"]
+        selector:
+          matchLabels:
+            app: hollo
+            type: storage
         resources:
           requests:
             storage: 1Gi

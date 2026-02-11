@@ -1,7 +1,10 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: hollo-pg-pv
+  name: hollo-storage-pv
+  labels:
+    app: hollo
+    type: storage
 spec:
   capacity:
     storage: 1Gi
@@ -11,7 +14,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: local-storage
   local:
-    path: /mnt/local-storage/hollo-pg
+    path: /mnt/local-storage/hollo-storage
   nodeAffinity:
     required:
       nodeSelectorTerms:
