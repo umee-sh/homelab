@@ -23,5 +23,5 @@
     #- prometheus
     - community
     - argocd -v 9.1.4 # https://artifacthub.io/packages/helm/argo/argo-cd?modal=changelog
-    #- cloudnative-pg
+    - cloudnative-pg
   changed_when: true
