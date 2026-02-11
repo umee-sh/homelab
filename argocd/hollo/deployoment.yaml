@@ -34,7 +34,7 @@ spec:
               memory: "32Mi"
               cpu: "128m"
             limits:
-              memory: "512Gi"
+              memory: "512Mi"
               cpu: "1024m"
         - name: hollo-media
           image: nginx:1.29.5
@@ -42,8 +42,8 @@ spec:
             - containerPort: 80
               name: http
           volumeMounts:
-            name: hollo-storage
-            mountPath: /usr/share/nginx/html/assets
+            - name: hollo-storage
+              mountPath: /usr/share/nginx/html/assets
 
   volumeClaimTemplates:
     - metadata:
