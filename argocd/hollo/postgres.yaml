@@ -35,7 +35,7 @@ spec:
   backup:
     barmanObjectStore:
       endpointURL: "https://s3.isk01.sakurastorage.jp"
-      destinationPath: s3://i544c-me--learn-microk8s/hollo-backup/
+      destinationPath: s3://i544c-me--learn-microk8s/hollo-backup-new/
       s3Credentials:
         accessKeyId:
           name: sakura-obj-credentials
