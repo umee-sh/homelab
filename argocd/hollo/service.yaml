@@ -10,3 +10,18 @@ spec:
     - protocol: TCP
       port: 3000
       targetPort: http
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: hollo-media
+  namespace: app-hollo
+spec:
+  selector:
+    app: hollo
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: http
