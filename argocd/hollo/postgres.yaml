@@ -6,10 +6,10 @@ metadata:
 spec:
   instances: 1
 
-  bootstrap:
-    recovery:
-      source: backup
-
+  # リストア
+  # bootstrap:
+  #   recovery:
+  #     source: backup
   # externalClusters:
   #   - name: backup
   #     barmanObjectStore:
