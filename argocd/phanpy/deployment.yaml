@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: phanpy
-          image: 192.168.0.10:32000/phanpy:2026.01.31.8b98d5a
+          image: localhost:32000/phanpy:2026.01.31.8b98d5a
           ports:
             - containerPort: 80
               name: http
