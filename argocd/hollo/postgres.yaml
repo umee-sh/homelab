@@ -10,44 +10,44 @@ spec:
     recovery:
       source: backup
 
-  externalClusters:
-    - name: backup
-      barmanObjectStore:
-        endpointURL: "https://s3.isk01.sakurastorage.jp"
-        destinationPath: s3://i544c-me--learn-microk8s/hollo-backup/
-        serverName: hollo-pg
-        s3Credentials:
-          accessKeyId:
-            name: sakura-obj-credentials
-            key: ACCESS_KEY_ID
-          secretAccessKey:
-            name: sakura-obj-credentials
-            key: SECRET_ACCESS_KEY
-        data:
-          compression: gzip
-        wal:
-          compression: gzip
+  # externalClusters:
+  #   - name: backup
+  #     barmanObjectStore:
+  #       endpointURL: "https://s3.isk01.sakurastorage.jp"
+  #       destinationPath: s3://i544c-me--learn-microk8s/hollo-backup/
+  #       serverName: hollo-pg
+  #       s3Credentials:
+  #         accessKeyId:
+  #           name: sakura-obj-credentials
+  #           key: ACCESS_KEY_ID
+  #         secretAccessKey:
+  #           name: sakura-obj-credentials
+  #           key: SECRET_ACCESS_KEY
+  #       data:
+  #         compression: gzip
+  #       wal:
+  #         compression: gzip
 
   storage:
     storageClass: local-storage
     size: 1Gi
 
-  # backup:
-  #   barmanObjectStore:
-  #     endpointURL: "https://s3.isk01.sakurastorage.jp"
-  #     destinationPath: s3://i544c-me--learn-microk8s/hollo-backup-new/
-  #     s3Credentials:
-  #       accessKeyId:
-  #         name: sakura-obj-credentials
-  #         key: ACCESS_KEY_ID
-  #       secretAccessKey:
-  #         name: sakura-obj-credentials
-  #         key: SECRET_ACCESS_KEY
-  #     data:
-  #       compression: gzip
-  #     wal:
-  #       compression: gzip
-  #   retentionPolicy: "7d"
+  backup:
+    barmanObjectStore:
+      endpointURL: "https://s3.isk01.sakurastorage.jp"
+      destinationPath: s3://i544c-me--learn-microk8s/hollo-backup-new/
+      s3Credentials:
+        accessKeyId:
+          name: sakura-obj-credentials
+          key: ACCESS_KEY_ID
+        secretAccessKey:
+          name: sakura-obj-credentials
+          key: SECRET_ACCESS_KEY
+      data:
+        compression: gzip
+      wal:
+        compression: gzip
+    retentionPolicy: "7d"
 
 ---
 # apiVersion: postgresql.cnpg.io/v1
