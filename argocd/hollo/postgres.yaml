@@ -60,13 +60,13 @@ spec:
 #     name: hollo-pg
 
 ---
-# apiVersion: postgresql.cnpg.io/v1
-# kind: ScheduledBackup
-# metadata:
-#   name: hollo-backup
-#   namespace: hollo
-# spec:
-#   schedule: "0 0 0 * * *"
-#   backupOwnerReference: self
-#   cluster:
-#     name: hollo-pg
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: hollo-backup
+  namespace: app-hollo
+spec:
+  schedule: "0 0 0 * * *"
+  backupOwnerReference: self
+  cluster:
+    name: hollo-pg
