@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zeroclaw
+  namespace: app-zeroclaw
+  labels:
+    app: zeroclaw
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zeroclaw
+  template:
+    metadata:
+      labels:
+        app: zeroclaw
+    spec:
+      containers:
+        - name: zeroclaw
+          image: ghcr.io/zeroclaw-labs/zeroclaw:v0.6.5-debian
+          ports:
+            - containerPort: 42617
+              name: gateway
+          env:
+            - name: ZEROCLAW_PROVIDER
+              value: "openai"
+            - name: ZEROCLAW_MODEL
+              value: "gpt-5.4-mini"
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: zeroclaw-secret
+                  key: OPENAI_API_KEY

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: zeroclaw
+  namespace: app-zeroclaw
+spec:
+  selector:
+    app: zeroclaw
+  ports:
+    - protocol: TCP
+      port: 42617
+      targetPort: gateway
