@@ -37,6 +37,13 @@ spec:
                 secretKeyRef:
                   name: openclaw-secret
                   key: DISCORD_BOT_TOKEN
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "128m"
+            limits:
+              memory: "500Mi"
+              cpu: "500m"
           volumeMounts:
             - name: openclaw-config
               mountPath: /home/node/.openclaw/openclaw.json
