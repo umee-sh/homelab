@@ -22,8 +22,8 @@ spec:
             - containerPort: 18790
               name: http
           volumeMounts:
-            - name: picoclaw-workspaces
-              mountPath: /root/.picoclaw/workspaces
+            # - name: picoclaw-workspaces
+            #   mountPath: /root/.picoclaw/workspaces
             # - name: picoclaw-secret-volume
             #   mountPath: /root/.picoclaw/.security.yml
             #   subPath: .security.yml
