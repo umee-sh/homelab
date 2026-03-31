@@ -24,9 +24,9 @@ spec:
           volumeMounts:
             - name: picoclaw-workspaces
               mountPath: /root/.picoclaw/workspaces
-            - name: picoclaw-secret-volume
-              mountPath: /root/.picoclaw/.security.yml
-              subPath: .security.yml
+            # - name: picoclaw-secret-volume
+            #   mountPath: /root/.picoclaw/.security.yml
+            #   subPath: .security.yml
             # - name: picoclaw-config-volume
             #   mountPath: /root/.picoclaw/config.json
             #   subPath: config.json
