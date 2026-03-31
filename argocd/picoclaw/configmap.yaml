@@ -78,9 +78,9 @@ data:
           "is_lark": false
         },
         "discord": {
-          "enabled": false,
+          "enabled": true,
           "proxy": "",
-          "allow_from": [],
+          "allow_from": ["984123141297156099"],
           "mention_only": false,
           "group_trigger": {},
           "typing": {},
@@ -354,7 +354,7 @@ data:
         }
       ],
       "gateway": {
-        "host": "127.0.0.1",
+        "host": "0.0.0.0",
         "port": 18790,
         "hot_reload": false,
         "log_level": "fatal"
