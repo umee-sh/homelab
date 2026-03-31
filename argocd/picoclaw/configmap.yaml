@@ -81,8 +81,10 @@ data:
           "enabled": true,
           "proxy": "",
           "allow_from": ["984123141297156099"],
-          "mention_only": false,
-          "group_trigger": {},
+          "group_trigger": {
+            "mention_only": true,
+            "prefixes": ["/ask"]
+          },
           "typing": {},
           "placeholder": {
             "enabled": false
