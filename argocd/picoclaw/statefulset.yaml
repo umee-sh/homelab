@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: picoclaw
+  namespace: app-picoclaw
+  labels:
+    app: picoclaw
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: picoclaw
+  template:
+    metadata:
+      labels:
+        app: picoclaw
+    spec:
+      containers:
+        - name: picoclaw
+          image: ghcr.io/sipeed/picoclaw:v0.2.4
+          ports:
+            - containerPort: 18790
+              name: http
+          volumeMounts:
+            - name: picoclaw-workspaces
+              mountPath: /root/.picoclaw/workspaces
+            - name: picoclaw-secret-volume
+              mountPath: /root/.picoclaw/.security.yml
+              subPath: .security.yml
+            - name: picoclaw-config-volume
+              mountPath: /root/.picoclaw/config.json
+              subPath: config.json
+      volumes:
+        - name: picoclaw-secret-volume
+          secret:
+            secretName: picoclaw-secret
+        - name: picoclaw-config-volume
+          configMap:
+            name: picoclaw-config
+  volumeClaimTemplates:
+    - metadata:
+        name: picoclaw-workspaces
+      spec:
+        storageClassName: local-storage
+        accessModes: ["ReadWriteOnce"]
+        selector:
+          matchLabels:
+            app: picoclaw
+            type: workspaces
+        resources:
+          requests:
+            storage: 1Gi

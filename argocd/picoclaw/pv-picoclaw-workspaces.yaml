@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: picoclaw-workspaces-pv
+  labels:
+    app: picoclaw
+    type: workspaces
+spec:
+  capacity:
+    storage: 1Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+  local:
+    # NOTE: ノードのホスト名とパスは環境に合わせて変更してください
+    path: /mnt/local-storage/picoclaw-workspaces
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - microk8s-controller-1
