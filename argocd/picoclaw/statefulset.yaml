@@ -23,7 +23,7 @@ spec:
               name: http
           volumeMounts:
             - name: picoclaw-workspaces
-              mountPath: /root/.picoclaw/workspaces
+              mountPath: /root/.picoclaw/workspace
             - name: picoclaw-secret-volume
               mountPath: /root/.picoclaw/.security.yml
               subPath: .security.yml
