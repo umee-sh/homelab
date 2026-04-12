@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prometheus
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://prometheus-community.github.io/helm-charts
+    chart: prometheus
+    targetRevision: 28.16.0
+    helm:
+      valuesObject:
+        # 今は不要なコンポーネントを無効化
+        alertmanager:
+          enabled: false
+        prometheus-pushgateway:
+          enabled: false
+
+        server:
+          retention: "15d"
+          # PV が未整備のため emptyDir を使用（Pod 再起動でデータが消える）
+          # PV を用意したら enabled: true に変更する
+          persistentVolume:
+            enabled: false
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
