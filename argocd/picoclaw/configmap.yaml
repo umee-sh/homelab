@@ -227,7 +227,7 @@ data:
         },
         {
           "model_name": "claude-sonnet-4.6",
-          "model": "anthropic/claude-sonnet-4.6",
+          "model": "anthropic/claude-sonnet-4-6",
           "api_base": "https://api.anthropic.com/v1"
         },
         {
