@@ -24,7 +24,7 @@ spec:
             server:
               ROOT_URL: https://git.umee.sh/
             service:
-              # DISABLE_REGISTRATION: "true"
+              DISABLE_REGISTRATION: "true"
             actions:
               ENABLED: "false"
             database:
