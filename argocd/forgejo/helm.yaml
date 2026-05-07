@@ -21,6 +21,8 @@ spec:
             passwordMode: initialOnlyRequireReset
             existingSecret: forgejo-admin-secret
           config:
+            server:
+              ROOT_URL: https://git.umee.sh/
             service:
               # DISABLE_REGISTRATION: "true"
             actions:
@@ -30,9 +32,6 @@ spec:
               HOST: forgejo-pg-rw.app-forgejo.svc.cluster.local:5432
               NAME: app
               USER: app
-          # additionalConfigSources:
-          # - secret:
-          #     secretName: forgejo-config-secret
         deployment:
           env:
             - name: FORGEJO__database__PASSWD
