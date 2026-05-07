@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: forgejo-helm
+  namespace: argocd
+spec:
+  project: default
+  source:
+    chart: forgejo
+    repoURL: code.forgejo.org/forgejo-helm
+    # ref: https://code.forgejo.org/forgejo-helm/forgejo-helm/releases
+    targetRevision: 17.0.1
+    helm:
+      valuesObject:
+        global:
+          storageClass: local-storage
+        gitea:
+          admin:
+            passwordMode: initialOnlyRequireReset
+            existingSecret: forgejo-admin-secret
+          config:
+            service:
+              # DISABLE_REGISTRATION: "true"
+            actions:
+              ENABLED: "false"
+            database:
+              DB_TYPE: postgres
+          additionalConfigSources:
+          - secret:
+              secretName: forgejo-config-secret
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: app-forgejo
+  syncPolicy:
+    automated:
+      prune: true
