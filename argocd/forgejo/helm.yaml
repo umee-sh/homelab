@@ -27,9 +27,19 @@ spec:
               ENABLED: "false"
             database:
               DB_TYPE: postgres
-          additionalConfigSources:
-          - secret:
-              secretName: forgejo-config-secret
+              HOST: forgejo-pg-rw.app-forgejo.svc.cluster.local:5432
+              NAME: app
+              USER: app
+          # additionalConfigSources:
+          # - secret:
+          #     secretName: forgejo-config-secret
+        deployment:
+          env:
+            - name: FORGEJO__database__PASSWD
+              valueFrom:
+                secretKeyRef:
+                  name: forgejo-pg-app
+                  key: password
   destination:
     server: "https://kubernetes.default.svc"
     namespace: app-forgejo
