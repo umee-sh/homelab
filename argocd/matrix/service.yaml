@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: continuwuity
+  namespace: app-matrix
+spec:
+  selector:
+    app: continuwuity
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: http
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: element
+  namespace: app-matrix
+spec:
+  selector:
+    app: element
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: http
