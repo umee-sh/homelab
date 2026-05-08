@@ -41,7 +41,7 @@ spec:
         extraContainerVolumeMounts:
           - name: custom-templates
             readOnly: true
-            mountPath: /var/lib/forgejo/custom/templates
+            mountPath: /data/gitea/templates
         deployment:
           env:
             - name: FORGEJO__database__PASSWD
