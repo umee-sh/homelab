@@ -27,6 +27,8 @@ spec:
               DISABLE_REGISTRATION: "true"
             actions:
               ENABLED: "false"
+            repository:
+              DISABLE_DOWNLOAD_SOURCE_ARCHIVES: "true"
             database:
               DB_TYPE: postgres
               HOST: forgejo-pg-rw.app-forgejo.svc.cluster.local:5432
