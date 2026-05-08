@@ -34,6 +34,14 @@ spec:
               HOST: forgejo-pg-rw.app-forgejo.svc.cluster.local:5432
               NAME: app
               USER: app
+        extraVolumes:
+          - name: custom-templates
+            configMap:
+              name: forgejo-custom-templates
+        extraContainerVolumeMounts:
+          - name: custom-templates
+            readOnly: true
+            mountPath: /var/lib/forgejo/custom/templates
         deployment:
           env:
             - name: FORGEJO__database__PASSWD
