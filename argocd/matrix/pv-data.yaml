@@ -15,7 +15,7 @@ spec:
   storageClassName: local-storage
   claimRef:
     namespace: app-matrix
-    name: continuwuity-data
+    name: continuwuity-data-continuwuity-0
   local:
     path: /mnt/local-storage/continuwuity-data
   nodeAffinity:
