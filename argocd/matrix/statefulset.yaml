@@ -17,7 +17,8 @@ spec:
     spec:
       containers:
         - name: continuwuity
-          image: forgejo.ellis.link/continuwuation/continuwuity:latest
+          # ref: https://forgejo.ellis.link/continuwuation/-/packages/container/continuwuity/versions
+          image: forgejo.ellis.link/continuwuation/continuwuity@sha256:b77b1da1622e948bb8bd50ebe185cba68677b32f6969a5d7171dc54613e59bc6 # v0.5.9
           ports:
             - containerPort: 80
               name: http
