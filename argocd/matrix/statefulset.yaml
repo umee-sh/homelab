@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: continuwuity
+  namespace: app-matrix
+  labels:
+    app: continuwuity
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: continuwuity
+  template:
+    metadata:
+      labels:
+        app: continuwuity
+    spec:
+      containers:
+        - name: continuwuity
+          # ref: https://forgejo.ellis.link/continuwuation/-/packages/container/continuwuity/versions
+          image: forgejo.ellis.link/continuwuation/continuwuity@sha256:b77b1da1622e948bb8bd50ebe185cba68677b32f6969a5d7171dc54613e59bc6 # v0.5.9
+          ports:
+            - containerPort: 80
+              name: http
+          env:
+            - name: CONTINUWUITY_SERVER_NAME
+              value: "matrix.umee.sh"
+            - name: CONTINUWUITY_DATABASE_PATH
+              value: "/data/db"
+            - name: CONTINUWUITY_DATABASE_BACKEND
+              value: "rocksdb"
+            - name: CONTINUWUITY_PORT
+              value: "80"
+            - name: CONTINUWUITY_ADDRESS
+              value: "0.0.0.0"
+            - name: CONTINUWUITY_ALLOW_REGISTRATION
+              value: "false"
+            - name: CONTINUWUITY_ALLOW_FEDERATION
+              value: "false"
+          volumeMounts:
+            - name: continuwuity-data
+              mountPath: /data
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "1000m"
+
+  volumeClaimTemplates:
+    - metadata:
+        name: continuwuity-data
+      spec:
+        storageClassName: local-storage
+        accessModes: ["ReadWriteOnce"]
+        selector:
+          matchLabels:
+            app: continuwuity
+            type: data
+        resources:
+          requests:
+            storage: 1Gi
