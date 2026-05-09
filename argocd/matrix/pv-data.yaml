@@ -13,6 +13,9 @@ spec:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   storageClassName: local-storage
+  claimRef:
+    namespace: app-matrix
+    name: continuwuity-data
   local:
     path: /mnt/local-storage/continuwuity-data
   nodeAffinity:

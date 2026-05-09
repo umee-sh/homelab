@@ -17,9 +17,13 @@ spec:
     spec:
       containers:
         - name: element
-          image: ghcr.io/element-hq/element-web:latest
+          # ref: https://github.com/element-hq/element-web/pkgs/container/element-web/versions?filters[version_type]=tagged
+          image: ghcr.io/element-hq/element-web@sha256:f4a81a24d49a9c5b97e02e77a3013ec799873e500e69041078a28be98e4f1280 # v1.12.17
+          env:
+            - name: ELEMENT_WEB_PORT
+              value: "8080"
           ports:
-            - containerPort: 80
+            - containerPort: 8080
               name: http
           volumeMounts:
             - name: config
