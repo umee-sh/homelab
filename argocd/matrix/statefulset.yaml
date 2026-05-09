@@ -60,4 +60,4 @@ spec:
             type: data
         resources:
           requests:
-            storage: 10Gi
+            storage: 1Gi
