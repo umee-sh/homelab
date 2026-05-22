@@ -3,7 +3,7 @@
 ## Secret の登録
 
 ```bash
-cat <<EOF | kubectl apply -f -
+cat <<EOF | sudo microk8s kubectl apply -f -
 apiVersion: v1
 kind: Secret
 metadata:
