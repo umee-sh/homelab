@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: picoclaw
-          image: ghcr.io/sipeed/picoclaw:v0.2.8
+          image: ghcr.io/sipeed/picoclaw@sha256:96cc44c0598a7ab5d13ec140b2087b646078f8a684a9bbbec901b8c69512ac4e # v0.2.6
           ports:
             - containerPort: 18790
               name: http
