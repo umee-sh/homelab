@@ -22,7 +22,7 @@ spec:
             existingSecret: forgejo-admin-secret
           config:
             server:
-              ROOT_URL: https://git.umee.sh/
+              ROOT_URL: https://code.umee.sh/
             service:
               DISABLE_REGISTRATION: "true"
             actions:
