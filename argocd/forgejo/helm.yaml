@@ -26,7 +26,10 @@ spec:
             service:
               DISABLE_REGISTRATION: "true"
             actions:
-              ENABLED: "false"
+              ENABLED: "true"
+              DEFAULT_ACTIONS_URL: https://data.forgejo.org
+              LOG_RETENTION_DAYS: 180
+              ARTIFACT_RETENTION_DAYS: 30
             repository:
               DISABLE_DOWNLOAD_SOURCE_ARCHIVES: "true"
             database:
