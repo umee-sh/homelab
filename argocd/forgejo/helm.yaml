@@ -1,0 +1,74 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: forgejo-helm
+  namespace: argocd
+spec:
+  project: default
+  source:
+    chart: forgejo
+    repoURL: code.forgejo.org/forgejo-helm
+    # ref: https://code.forgejo.org/forgejo-helm/forgejo-helm/releases
+    targetRevision: 17.0.1
+    helm:
+      valuesObject:
+        global:
+          storageClass: local-storage
+        persistence:
+          size: 1Gi
+        gitea:
+          admin:
+            passwordMode: initialOnlyRequireReset
+            existingSecret: forgejo-admin-secret
+          config:
+            server:
+              ROOT_URL: https://code.umee.sh/
+              DISABLE_SSH: "true"
+            service:
+              DISABLE_REGISTRATION: "true"
+              ENABLE_CAPTCHA: "true"
+              REQUIRE_CAPTCHA_FOR_LOGIN: "true"
+              CAPTCHA_TYPE: cfturnstile
+            actions:
+              ENABLED: "true"
+              DEFAULT_ACTIONS_URL: https://data.forgejo.org
+              LOG_RETENTION_DAYS: 180
+              ARTIFACT_RETENTION_DAYS: 30
+            repository:
+              DISABLE_DOWNLOAD_SOURCE_ARCHIVES: "true"
+            database:
+              DB_TYPE: postgres
+              HOST: forgejo-pg-rw.app-forgejo.svc.cluster.local:5432
+              NAME: app
+              USER: app
+        extraVolumes:
+          - name: custom-templates
+            configMap:
+              name: forgejo-custom-templates
+        extraContainerVolumeMounts:
+          - name: custom-templates
+            readOnly: true
+            mountPath: /data/gitea/templates
+        deployment:
+          env:
+            - name: FORGEJO__database__PASSWD
+              valueFrom:
+                secretKeyRef:
+                  name: forgejo-pg-app
+                  key: password
+            - name: FORGEJO__service__CF_TURNSTILE_SITEKEY
+              valueFrom:
+                secretKeyRef:
+                  name: forgejo-turnstile-secret
+                  key: sitekey
+            - name: FORGEJO__service__CF_TURNSTILE_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: forgejo-turnstile-secret
+                  key: secret
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: app-forgejo
+  syncPolicy:
+    automated:
+      prune: true
