@@ -26,6 +26,9 @@ spec:
               DISABLE_SSH: "true"
             service:
               DISABLE_REGISTRATION: "true"
+              ENABLE_CAPTCHA: "true"
+              REQUIRE_CAPTCHA_FOR_LOGIN: "true"
+              CAPTCHA_TYPE: cfturnstile
             actions:
               ENABLED: "true"
               DEFAULT_ACTIONS_URL: https://data.forgejo.org
@@ -53,6 +56,16 @@ spec:
                 secretKeyRef:
                   name: forgejo-pg-app
                   key: password
+            - name: FORGEJO__service__CF_TURNSTILE_SITEKEY
+              valueFrom:
+                secretKeyRef:
+                  name: forgejo-turnstile-secret
+                  key: sitekey
+            - name: FORGEJO__service__CF_TURNSTILE_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: forgejo-turnstile-secret
+                  key: secret
   destination:
     server: "https://kubernetes.default.svc"
     namespace: app-forgejo
