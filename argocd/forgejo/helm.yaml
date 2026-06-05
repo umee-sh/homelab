@@ -23,6 +23,7 @@ spec:
           config:
             server:
               ROOT_URL: https://code.umee.sh/
+              DISABLE_SSH: "true"
             service:
               DISABLE_REGISTRATION: "true"
             actions:
