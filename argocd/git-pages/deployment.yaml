@@ -30,21 +30,13 @@ spec:
             - name: data
               mountPath: /app/data
           livenessProbe:
-            httpGet:
-              path: /.git-pages/health
+            tcpSocket:
               port: http
-              httpHeaders:
-                - name: Host
-                  value: pages.umee.sh
             initialDelaySeconds: 10
             periodSeconds: 30
           readinessProbe:
-            httpGet:
-              path: /.git-pages/health
+            tcpSocket:
               port: http
-              httpHeaders:
-                - name: Host
-                  value: pages.umee.sh
             initialDelaySeconds: 5
             periodSeconds: 10
       volumes:
