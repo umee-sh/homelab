@@ -11,7 +11,7 @@ data:
     metrics = "tcp/:3002"
 
     [[wildcard]]
-    domain = "pages.umee.sh"
+    domain = "umee.sh"
     clone-url = "https://code.umee.sh/<user>/<project>.git"
     index-repo = "pages"
     index-repo-branch = "pages"
