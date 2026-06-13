@@ -1,0 +1,45 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: forgejo-storage-backup
+  namespace: app-forgejo
+spec:
+  schedule: "0 1 * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          nodeSelector:
+            kubernetes.io/hostname: microk8s-controller-1
+          containers:
+            - name: rclone
+              image: rclone/rclone:1.69
+              args:
+                - sync
+                - /data
+                - ":s3:i544c-me--learn-microk8s/forgejo-storage-backup"
+                - --s3-provider=Other
+                - --s3-endpoint=https://s3.isk01.sakurastorage.jp
+                - --s3-env-auth=true
+              env:
+                - name: AWS_ACCESS_KEY_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: sakura-obj-credentials
+                      key: ACCESS_KEY_ID
+                - name: AWS_SECRET_ACCESS_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: sakura-obj-credentials
+                      key: SECRET_ACCESS_KEY
+              volumeMounts:
+                - name: storage
+                  mountPath: /data
+                  readOnly: true
+          volumes:
+            - name: storage
+              hostPath:
+                path: /mnt/local-storage/forgejo-storage
+                type: Directory
+          restartPolicy: OnFailure
