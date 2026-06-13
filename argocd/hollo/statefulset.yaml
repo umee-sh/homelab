@@ -7,6 +7,7 @@ metadata:
     app: hollo
 spec:
   replicas: 1
+  serviceName: ""
   selector:
     matchLabels:
       app: hollo
