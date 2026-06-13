@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: git-pages
+  namespace: app-git-pages
+spec:
+  selector:
+    app: git-pages
+  ports:
+    - name: http
+      protocol: TCP
+      port: 3000
+      targetPort: http
+    - name: metrics
+      protocol: TCP
+      port: 3002
+      targetPort: metrics

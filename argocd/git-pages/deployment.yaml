@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: git-pages
+  namespace: app-git-pages
+  labels:
+    app: git-pages
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: git-pages
+  template:
+    metadata:
+      labels:
+        app: git-pages
+    spec:
+      containers:
+        - name: git-pages
+          image: codeberg.org/git-pages/git-pages:0.9.1
+          ports:
+            - containerPort: 3000
+              name: http
+            - containerPort: 3002
+              name: metrics
+          volumeMounts:
+            - name: config
+              mountPath: /app/config.toml
+              subPath: config.toml
+            - name: data
+              mountPath: /app/data
+          livenessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          readinessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+      volumes:
+        - name: config
+          configMap:
+            name: git-pages-config
+        - name: data
+          persistentVolumeClaim:
+            claimName: git-pages-pvc

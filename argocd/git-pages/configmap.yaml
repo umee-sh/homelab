@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: git-pages-config
+  namespace: app-git-pages
+data:
+  config.toml: |
+    [server]
+    pages = "tcp/:3000"
+    caddy = "-"
+    metrics = "tcp/:3002"
+
+    [[wildcard]]
+    domain = "umee.sh"
+    clone-url = "https://code.umee.sh/<user>/<project>.git"
+    index-repo = "pages"
+    index-repo-branch = "pages"
+    authorization = "forgejo"
+
+    [storage]
+    type = "fs"
+
+    [storage.fs]
+    root = "/app/data"
