@@ -24,6 +24,10 @@ spec:
             server:
               ROOT_URL: https://code.umee.sh/
               DISABLE_SSH: "true"
+            cors:
+              ENABLED: "true"
+              ALLOW_DOMAIN: "https://*.umee.sh"
+              METHODS: GET,HEAD,OPTIONS
             service:
               DISABLE_REGISTRATION: "true"
               ENABLE_CAPTCHA: "true"
