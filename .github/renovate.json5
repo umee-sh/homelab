@@ -1,0 +1,70 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "dependencyDashboard": true,
+  "labels": ["renovate"],
+  "prConcurrentLimit": 4,
+  "prHourlyLimit": 2,
+  "schedule": ["before 6am on monday"],
+
+  // kubernetes/argocd マネージャーはデフォルトで managerFilePatterns が空 =
+  // 何もマッチしないため、明示的に argocd/ 配下の yaml を指定する
+  "kubernetes": {
+    "managerFilePatterns": ["/^argocd/.+\\.ya?ml$/"]
+  },
+  "argocd": {
+    "managerFilePatterns": ["/^argocd/.+\\.ya?ml$/"]
+  },
+
+  "customManagers": [
+    {
+      // container/phanpy/Dockerfile の ARG PHANPY_VERSION は
+      // cheeaun/phanpy のカレンダー形式 git タグを追跡している
+      "customType": "regex",
+      "description": "Track cheeaun/phanpy upstream git tags",
+      "managerFilePatterns": ["/^container/phanpy/Dockerfile$/"],
+      "matchStrings": ["ARG PHANPY_VERSION=\"(?<currentValue>[^\"]+)\""],
+      "depNameTemplate": "cheeaun/phanpy",
+      "datasourceTemplate": "github-tags",
+      "versioningTemplate": "loose"
+    }
+  ],
+
+  "packageRules": [
+    {
+      // localhost:32000 はクラスタ内プライベートレジストリで
+      // Renovate からは到達・解決不可能なため除外
+      "description": "Exclude private in-cluster registry image",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["/^localhost:32000\\//"],
+      "enabled": false
+    },
+    {
+      // argocd/apps/*.yaml (app-of-apps) は targetRevision: main (や作業ブランチ名) を
+      // 自リポジトリのブランチ名として使っており、依存バージョンではない
+      // (dry run で datasource: git-tags として抽出されることを確認済み)
+      "description": "Guard against false-positive targetRevision extraction on app-of-apps files",
+      "matchFileNames": ["argocd/apps/**"],
+      "matchDatasources": ["git-tags"],
+      "enabled": false
+    },
+    {
+      "description": "Group patch/minor bumps",
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "minor and patch updates"
+    },
+    {
+      "description": "Major bumps require Dependency Dashboard approval",
+      "matchUpdateTypes": ["major"],
+      "dependencyDashboardApproval": true
+    },
+    {
+      // ユーザー指定: patch のみ CI 通過後に自動マージ、minor/major は手動レビュー
+      "description": "Automerge patch updates after CI passes",
+      "matchUpdateTypes": ["patch"],
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true
+    }
+  ]
+}
